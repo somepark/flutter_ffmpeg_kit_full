@@ -630,9 +630,7 @@ class FFmpegKitConfig {
         return "FAILED";
       case SessionState.completed:
         return "COMPLETED";
-      default:
-        return "";
-    }
+      }
   }
 
   /// Parses [command] into arguments. Uses space character to split the

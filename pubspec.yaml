@@ -8,14 +8,15 @@ environment:
   flutter: '>=3.3.0'
 
 dependencies:
+  ffmpeg_kit_flutter_platform_interface: ^0.2.1
   flutter:
     sdk: flutter
-  ffmpeg_kit_flutter_platform_interface: ^0.2.1
+  plugin_platform_interface: ^2.1.5
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  plugin_platform_interface: ^2.1.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -70,3 +71,4 @@ flutter:
   #
   # For details regarding fonts in packages, see
   # https://flutter.dev/to/font-from-package
+publish_to: https://pub.dev
