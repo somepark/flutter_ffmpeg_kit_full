@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.version          = '0.0.1'
   s.summary          = 'FFmpeg Kit for Flutter'
   s.description      = 'A Flutter plugin for running FFmpeg and FFprobe commands.'
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'https://github.com/arthenica/ffmpeg-kit'
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'ARTHENICA' => 'open-source@arthenica.com' }
 
@@ -130,8 +130,8 @@ Pod::Spec.new do |s|
 #   s.subspec 'full-gpl-lts' do |ss|
 #     ss.source_files         = 'Classes/**/*'
 #     ss.public_header_files  = 'Classes/**/*.h'
-#     ss.dependency 'ffmpeg-kit-ios-full-gpl', "6.0.LTS"
-#     ss.ios.deployment_target = '10'
+#     #ss.dependency 'ffmpeg-kit-ios-full-gpl', "6.0.LTS"
+#     ss.ios.deployment_target = '12.1'
 
   s.subspec 'full-gpl-lts' do |ss|
     ss.source_files         = 'Classes/**/*'
@@ -155,10 +155,8 @@ Pod::Spec.new do |s|
 
     # 添加预安装钩子
     s.prepare_command = <<-CMD
-      if [ ! -d "./Frameworks" ]; then
-        chmod +x ../scripts/setup_ios.sh
-        ../scripts/setup_ios.sh
-      fi
+    chmod +x ../scripts/setup_ios.sh
+    ../scripts/setup_ios.sh
     CMD
 
   end

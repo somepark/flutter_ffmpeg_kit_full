@@ -1,29 +1,29 @@
 PODS:
   - Flutter (1.0.0)
-  - flutter_ffmpeg_kit_full_gpl (0.0.1):
+  - flutter_ffmpeg_kit_full (0.0.1):
     - Flutter
-    - flutter_ffmpeg_kit_full_gpl/full-gpl-lts (= 0.0.1)
-  - flutter_ffmpeg_kit_full_gpl/full-gpl-lts (0.0.1):
+    - flutter_ffmpeg_kit_full/full-gpl-lts (= 0.0.1)
+  - flutter_ffmpeg_kit_full/full-gpl-lts (0.0.1):
     - Flutter
   - integration_test (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - flutter_ffmpeg_kit_full_gpl (from `.symlinks/plugins/flutter_ffmpeg_kit_full_gpl/ios`)
+  - flutter_ffmpeg_kit_full (from `.symlinks/plugins/flutter_ffmpeg_kit_full/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  flutter_ffmpeg_kit_full_gpl:
-    :path: ".symlinks/plugins/flutter_ffmpeg_kit_full_gpl/ios"
+  flutter_ffmpeg_kit_full:
+    :path: ".symlinks/plugins/flutter_ffmpeg_kit_full/ios"
   integration_test:
     :path: ".symlinks/plugins/integration_test/ios"
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_ffmpeg_kit_full_gpl: f045921d05a6d8daa195d2f5422cd244bb0920e4
+  flutter_ffmpeg_kit_full: a619f01d4b822f14544e5452c20df2bf1def7426
   integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
 
 PODFILE CHECKSUM: 4305caec6b40dde0ae97be1573c53de1882a07e5
