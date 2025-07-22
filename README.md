@@ -284,3 +284,10 @@ See [License](https://github.com/arthenica/ffmpeg-kit/wiki/License) wiki page.
 
 See [Patents](https://github.com/arthenica/ffmpeg-kit/wiki/Patents) wiki page.
 
+### 8.sh 执行权限 ###
+- 初次构建或升级版本时执行一次
+- Android
+```chmod +x scripts/setup_android.sh```
+- iOS
+```chmod +x scripts/setup_ios.sh```
+

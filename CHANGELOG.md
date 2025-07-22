@@ -1,5 +1,6 @@
 ## 1.0.0
 
+* Fix android  build
 * Add exmaple
 * Add macos
 
