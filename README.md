@@ -46,7 +46,7 @@ Add `flutter_ffmpeg_kit_full` as a dependency in your `pubspec.yaml file`.
 
 ```yaml
 dependencies:
-  flutter_ffmpeg_kit_full: 0.0.1
+  flutter_ffmpeg_kit_full: ^1.0.0
 ```
 
 #### 2.1 Packages

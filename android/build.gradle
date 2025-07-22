@@ -13,6 +13,9 @@ rootProject.allprojects {
     repositories {
         google()
         mavenCentral()
+//        flatDir {
+//            dirs project(':flutter_ffmpeg_kit_full').file('libs')
+//        }
     }
 }
 
@@ -23,8 +26,7 @@ android {
     if (project.android.hasProperty("namespace")) {
         namespace 'com.arthenica.ffmpegkit.flutter'
     }
-
-    compileSdkVersion 33
+    compileSdk 33
 
     defaultConfig {
         minSdkVersion 24
@@ -43,10 +45,30 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    task setupDependencies(type: Exec) {
+        workingDir '.'
+        commandLine 'sh', '-c', '../scripts/setup_android.sh'
+        onlyIf { !file('libs/ffmpeg-kit-full-gpl-6.0-2.aar').exists() }
+    }
+    // 👇 在编译前挂上依赖
+    preBuild.dependsOn setupDependencies
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 dependencies {
     implementation 'androidx.annotation:annotation:1.5.0'
 //    implementation 'com.arthenica:ffmpeg-kit-full:6.0-2'
-    implementation 'com.arthenica:ffmpeg-kit-full-gpl:6.0-2'
+//    implementation 'com.arthenica:ffmpeg-kit-full-gpl:6.0-2'
+//    implementation fileTree(include: ['*.jar'], dir: 'libs')
+//    implementation fileTree(include: ['*.aar'], dir: 'libs')
+//    implementation(fileTree("libs")) //这种方式引入aar包要报错
+    implementation(name: 'smart-exception-common-0.2.1', ext: 'jar')
+    implementation(name: 'smart-exception-java-0.2.1', ext: 'jar')
+    implementation(name: 'ffmpeg-kit-full-gpl-6.0-2', ext: 'aar')
+
 }

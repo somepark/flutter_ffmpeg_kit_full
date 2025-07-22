@@ -1,5 +1,9 @@
-/example/
 .dart_tool/
 .idea/
+/example/.dart_tool/
+/example/.idea/
+/example/build/
 /ios/Frameworks/
 /ios/__MACOSX/
+/android/libs/
+/android/__MACOSX/

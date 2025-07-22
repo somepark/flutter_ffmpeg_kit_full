@@ -1,64 +1,220 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'dart:async';
-
 import 'package:flutter/services.dart';
-import 'package:flutter_ffmpeg_kit_full/flutter_ffmpeg_kit_full_gpl.dart';
+import 'package:flutter_ffmpeg_kit_full/flutter_ffmpeg_kit_full_export.dart';
+import 'package:flutter_ffmpeg_kit_full/log.dart';
+import 'package:flutter_ffmpeg_kit_full/session.dart';
+import 'package:flutter_ffmpeg_kit_full/statistics.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-
-  final _flutterFfmpegKitFullGplPlugin = FlutterFfmpegKitFullGpl();
-
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      platformVersion =
-          await _flutterFfmpegKitFullGplPlugin.getPlatformVersion() ?? 'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+      title: 'FFmpeg Kit Example',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      ),
+      home: const MyHomePage(title: 'FFmpeg Kit Example'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  String logString = 'FFmpeg Kit Example\n\n';
+  bool isProcessing = false;
+
+  @override
+  initState() {
+    super.initState();
+    isSupportLibX264();
+  }
+
+  Future<bool> isSupportLibX264() async {
+    final session = await FFmpegKit.execute('-codecs');
+    final logs = await session.getAllLogs();
+    final output = logs.map((e) => e.getMessage()).join('\n');
+
+    if (output.contains('libx264')) {
+      debugPrint('✅ 支持 libx264');
+      return true;
+    } else {
+      debugPrint('❌ 不支持 libx264');
+      return false;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Text(
+                        'Logs:',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      logString,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontFamily: 'monospace',
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          if (isProcessing)
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: LinearProgressIndicator(),
+            ),
+        ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: [
+            ElevatedButton(
+              onPressed:
+                  isProcessing
+                      ? null
+                      : () => executeFFmpegCommand('list_codecs'),
+              child: const Text('List Codecs'),
+            ),
+            ElevatedButton(
+              onPressed:
+                  isProcessing
+                      ? null
+                      : () => executeFFmpegCommand('mediacodec'),
+              child: const Text('MediaCodec'),
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  void executeFFmpegCommand(String mode) async {
+    setState(() {
+      isProcessing = true;
+      logString = 'Starting FFmpeg processing...\n\n';
+    });
+
+    try {
+      final tempDir = await getTemporaryDirectory();
+      final sampleVideoRoot = await rootBundle.load('assets/sample_video.mp4');
+      final sampleVideoFile = File('${tempDir.path}/sample_video.mp4');
+      final outputFile = File('${tempDir.path}/output.mp4');
+
+      await sampleVideoFile.writeAsBytes(sampleVideoRoot.buffer.asUint8List());
+      if (outputFile.existsSync()) await outputFile.delete();
+
+      String command;
+      String description;
+
+      switch (mode) {
+        case 'videotoolbox':
+          command =
+              '-i ${sampleVideoFile.path} -c:v h264_videotoolbox -b:v 2M ${outputFile.path}';
+          description = 'Hardware encoding (VideoToolbox)';
+          break;
+        case 'list_codecs':
+          if (Platform.isAndroid) {
+            command = '-hide_banner -encoders | grep -i mediacodec';
+            description = 'List MediaCodec codecs';
+          } else if (Platform.isIOS || Platform.isMacOS) {
+            command = '-hide_banner -encoders | grep -i videotoolbox';
+            description = 'List VideoToolbox codecs';
+          } else {
+            command = '-hide_banner -encoders';
+            description = 'List all codecs';
+          }
+          break;
+        case 'mediacodec':
+          command = '-hide_banner -encoders | grep -i mediacodec';
+          description = 'List MediaCodec codecs';
+          break;
+        default:
+          command =
+              '-i ${sampleVideoFile.path} -c:v mpeg4 -preset ultrafast ${outputFile.path}';
+          description = 'Default encoding';
+      }
+
+      setState(() {
+        logString += 'Mode: $description\n';
+        logString += 'Command: $command\n\n';
+        logString += 'Processing...\n';
+      });
+
+      /// Execute FFmpeg command
+      await FFmpegKit.executeAsync(
+        command,
+        (Session session) async {
+          final output = await session.getOutput();
+          final returnCode = await session.getReturnCode();
+          final duration = await session.getDuration();
+
+          setState(() {
+            logString += '\n✅ Processing completed!\n';
+            logString += 'Return code: $returnCode\n';
+            logString += 'Duration: ${duration}ms\n';
+            logString += 'Output: $output\n';
+            isProcessing = false;
+          });
+
+          debugPrint('session: $output');
+        },
+        (Log log) {
+          setState(() {
+            logString += log.getMessage();
+          });
+          debugPrint('log: ${log.getMessage()}');
+        },
+        (Statistics statistics) {
+          setState(() {
+            logString +=
+                '\n📊 Progress: ${statistics.getSize()} bytes, ${statistics.getTime()}ms\n';
+          });
+          debugPrint('statistics: ${statistics.getSize()}');
+        },
+      );
+    } catch (e) {
+      setState(() {
+        logString += '\n❌ Error: $e\n';
+        isProcessing = false;
+      });
+    }
   }
 }
