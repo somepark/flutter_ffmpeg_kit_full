@@ -17,7 +17,7 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+//    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         google()
         mavenCentral()
@@ -27,9 +27,9 @@ dependencyResolutionManagement {
         maven { url = uri("https://nexus.gravity-engine.com/repository/maven-releases/") }
         maven { url = uri("https://nexus.gravity-engine.com/repository/maven-snapshots/") }
         //解决插件找不到依赖问题
-        flatDir {
-            dirs(project(":flutter_ffmpeg_kit_full").projectDir.resolve("libs"))
-        }
+//        flatDir {
+//            dirs(project(":flutter_ffmpeg_kit_full").projectDir.resolve("libs"))
+//        }
     }
 }
 

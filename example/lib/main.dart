@@ -134,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     try {
       final tempDir = await getTemporaryDirectory();
-      final sampleVideoRoot = await rootBundle.load('assets/sample_video.mp4');
+      final sampleVideoRoot = await rootBundle.load('assets/video_example.mp4');
       final sampleVideoFile = File('${tempDir.path}/sample_video.mp4');
       final outputFile = File('${tempDir.path}/output.mp4');
 

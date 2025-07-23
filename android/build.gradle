@@ -13,9 +13,9 @@ rootProject.allprojects {
     repositories {
         google()
         mavenCentral()
-//        flatDir {
-//            dirs project(':flutter_ffmpeg_kit_full').file('libs')
-//        }
+        flatDir {
+            dirs project(':flutter_ffmpeg_kit_full').file('libs')
+        }
     }
 }
 
