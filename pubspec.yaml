@@ -1,6 +1,6 @@
 name: flutter_ffmpeg_kit_full
 description: "FFmpeg Kit for Flutter. Supports Android, iOS and macOS platforms"
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/arthenica/ffmpeg-kit
 # 添加 GitHub 仓库链接
 repository: https://github.com/somepark/flutter_ffmpeg_kit_full
