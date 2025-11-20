@@ -48,7 +48,7 @@ android {
     task setupDependencies(type: Exec) {
         workingDir '.'
         commandLine 'sh', '-c', '../scripts/setup_android.sh'
-        onlyIf { !file('libs/ffmpeg-kit-full-gpl-6.0-2.aar').exists() }
+        onlyIf { !file('libs/ffmpeg-kit-full-gpl.aar').exists() }
     }
     // 👇 在编译前挂上依赖
     preBuild.dependsOn setupDependencies

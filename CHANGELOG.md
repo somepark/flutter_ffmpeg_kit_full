@@ -1,3 +1,7 @@
+## 1.1.3
+
+* Optimization code
+
 ## 1.1.2
 
 * Optimization code

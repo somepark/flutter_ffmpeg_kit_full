@@ -11,7 +11,7 @@ ANDROID_URL="https://github.com/somepark/flutter_ffmpeg_kit_full/releases/downlo
 ZIP_FILE="libs.zip"
 
 #mkdir -p "$TARGET_DIR"
-cd "$TARGET_DIR"
+#cd "$TARGET_DIR"
 
 # 如果已经存在就跳过
 if [ ! -f "ffmpeg-kit-full-gpl.aar" ]; then
