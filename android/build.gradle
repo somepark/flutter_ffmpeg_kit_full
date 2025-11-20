@@ -26,11 +26,11 @@ android {
     if (project.android.hasProperty("namespace")) {
         namespace 'com.arthenica.ffmpegkit.flutter'
     }
-    compileSdk 33
+    compileSdk 36
 
     defaultConfig {
         minSdkVersion 24
-        targetSdkVersion 33
+        targetSdkVersion 36
     }
 
     buildTypes {
@@ -69,6 +69,7 @@ dependencies {
 //    implementation(fileTree("libs")) //这种方式引入aar包要报错
     implementation(name: 'smart-exception-common-0.2.1', ext: 'jar')
     implementation(name: 'smart-exception-java-0.2.1', ext: 'jar')
-    implementation(name: 'ffmpeg-kit-full-gpl-6.0-2', ext: 'aar')
+    //implementation(name: 'ffmpeg-kit-full-gpl-6.0-2', ext: 'aar')
+    implementation(name: 'ffmpeg-kit-full-gpl', ext: 'aar')
 
 }
