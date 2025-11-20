@@ -1,5 +1,9 @@
 ## 1.0.1
 
+* Supporting ffmpeg 16K
+
+## 1.0.1
+
 * Optimization code
 
 
