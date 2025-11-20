@@ -7,7 +7,7 @@ set -e  # 出错立即退出
 
 #TARGET_DIR="libs"
 #ANDROID_URL="https://github.com/somepark/flutter_ffmpeg_kit_full/releases/download/ffmpegkit_full_android/ffmpeg-kit-full-gpl-6.0-2.zip"
-ANDROID_URL="https://github.com/somepark/flutter_ffmpeg_kit_full/releases/download/untagged-dc18856b488d4c3e8cc1/ffmpeg-kit-full-gpl.zip"
+ANDROID_URL="https://github.com/somepark/flutter_ffmpeg_kit_full/releases/download/ffmpeg_full_android2/ffmpeg-kit-full-gpl.zip"
 ZIP_FILE="libs.zip"
 
 #mkdir -p "$TARGET_DIR"
