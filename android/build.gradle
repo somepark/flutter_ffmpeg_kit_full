@@ -50,6 +50,12 @@ android {
         commandLine 'sh', '-c', '../scripts/setup_android.sh'
         onlyIf { !file('libs/ffmpeg-kit-full-gpl.aar').exists() }
     }
+//    packagingOptions {
+//        // 当出现多个 libc++_shared.so 时，选择第一个遇到的
+//        // 这里的策略是：依靠构建系统优先打包本地构建产物，而不是 AAR 里的
+//        pickFirst 'libs/arm64-v8a/libc++_shared.so'
+//        pickFirst 'libs/armeabi-v7a/libc++_shared.so'
+//    }
     // 👇 在编译前挂上依赖
     preBuild.dependsOn setupDependencies
 }
@@ -69,7 +75,7 @@ dependencies {
 //    implementation(fileTree("libs")) //这种方式引入aar包要报错
     implementation(name: 'smart-exception-common-0.2.1', ext: 'jar')
     implementation(name: 'smart-exception-java-0.2.1', ext: 'jar')
-    //implementation(name: 'ffmpeg-kit-full-gpl-6.0-2', ext: 'aar')
+//    implementation(name: 'ffmpeg-kit-full-gpl-6.0-2', ext: 'aar')
     implementation(name: 'ffmpeg-kit-full-gpl', ext: 'aar')
 
 }
